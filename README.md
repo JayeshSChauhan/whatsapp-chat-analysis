@@ -6,7 +6,7 @@ This project analyzes WhatsApp chat data to generate insightful statistics and v
 1. Launch the WhatsApp application on your smartphone.
 2. Navigate to the chat you want to export.
 
-<img src="images/Step 1.jpg" alt="Step 1" width="500" height="500">
+<img src="images/Step 1.jpg" alt="Step 1" width="300" height="300">
 
 ---
 
@@ -15,9 +15,11 @@ This project analyzes WhatsApp chat data to generate insightful statistics and v
 2. Select **More** from the dropdown menu.
 3. Tap **Export Chat**.
 
-<img src="images/Step 2.jpg" alt="Step 1" width="500" height="500">
-<img src="images/Step 3.jpg" alt="Step 1" width="500" height="500">
-<img src="images/Step 4.jpg" alt="Step 1" width="500" height="500">
+<div style="display: flex; justify-content: space-between;">
+  <img src="images/Step 2.jpg" alt="Step 2" width="300" height="300">
+  <img src="images/Step 3.jpg" alt="Step 3" width="300" height="300">
+  <img src="images/Step 4.jpg" alt="Step 4" width="300" height="300">
+</div>
 
 ---
 
@@ -27,7 +29,7 @@ This project analyzes WhatsApp chat data to generate insightful statistics and v
    - **Without Media**: Exports only the chat text.
 > **Note:** This project only works with the **Without Media** option. Make sure to select this when exporting the chat.
 
-<img src="images/Step 5.jpg" alt="Step 1" width="500" height="500">
+<img src="images/Step 5.jpg" alt="Step 5" width="300" height="300">
 
 ---
 
