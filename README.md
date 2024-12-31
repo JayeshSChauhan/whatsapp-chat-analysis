@@ -16,9 +16,9 @@ This project analyzes WhatsApp chat data to generate insightful statistics and v
 3. Tap **Export Chat**.
 
 <div style="display: flex; justify-content: space-between;">
-  <img src="images/Step 2.jpg" alt="Step 2" width="300" height="300">
-  <img src="images/Step 3.jpg" alt="Step 3" width="300" height="300">
-  <img src="images/Step 4.jpg" alt="Step 4" width="300" height="300">
+  <img src="images/Step 2.jpg" alt="Step 2" width="250" height="250">
+  <img src="images/Step 3.jpg" alt="Step 3" width="250" height="250">
+  <img src="images/Step 4.jpg" alt="Step 4" width="250" height="250">
 </div>
 
 ---
