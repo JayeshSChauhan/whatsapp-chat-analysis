@@ -6,7 +6,7 @@ This project analyzes WhatsApp chat data to generate insightful statistics and v
 1. Launch the WhatsApp application on your smartphone.
 2. Navigate to the chat you want to export.
 
-![Step 1](https://github.com/JayeshSChauhan/whatsapp-chat-analysis/blob/1e921846284187238c2ede74d04b78c83204d6f7/images/Step%201.jpg)
+<img src="images/Step 1.jpg" alt="Step 1" width="300" height="200">
 
 ---
 
