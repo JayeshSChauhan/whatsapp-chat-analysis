@@ -6,7 +6,7 @@ This project analyzes WhatsApp chat data to generate insightful statistics and v
 1. Launch the WhatsApp application on your smartphone.
 2. Navigate to the chat you want to export.
 
-<img src="images/Step 1.jpg" alt="Step 1" width="300" height="200">
+<img src="images/Step 1.jpg" alt="Step 1" width="500" height="500">
 
 ---
 
@@ -15,7 +15,9 @@ This project analyzes WhatsApp chat data to generate insightful statistics and v
 2. Select **More** from the dropdown menu.
 3. Tap **Export Chat**.
 
-![Step 2](images/Step 2.jpg)
+<img src="images/Step 2.jpg" alt="Step 1" width="500" height="500">
+<img src="images/Step 3.jpg" alt="Step 1" width="500" height="500">
+<img src="images/Step 4.jpg" alt="Step 1" width="500" height="500">
 
 ---
 
@@ -23,8 +25,9 @@ This project analyzes WhatsApp chat data to generate insightful statistics and v
 1. WhatsApp will ask if you want to include or exclude media files (images, videos, etc.) in the export.
    - **With Media**: Exports the chat text along with any media files shared in the conversation.
    - **Without Media**: Exports only the chat text.
+> **Note:** This project only works with the **Without Media** option. Make sure to select this when exporting the chat.
 
-![Step 3](images/Step 3.jpg)
+<img src="images/Step 5.jpg" alt="Step 1" width="500" height="500">
 
 ---
 
@@ -34,14 +37,10 @@ This project analyzes WhatsApp chat data to generate insightful statistics and v
    - **Google Drive** (Android) or **Files App** (iOS): Save the file to your cloud storage.
    - **Other Apps**: Share via other installed applications (e.g., Telegram, Slack).
 
-![Step 4](images/Step 4.jpg)
-
 ---
 
 ### **Step 5: Access the Exported Chat**
-1. Once exported, the chat will be saved as a **.txt file** (with accompanying media, if selected).
-2. Open the saved location to view the chat.
-
-![Step 5](images/Step 5.jpg)
+1. Once exported, the chat will be saved as a **.txt file**.
+2. Open the saved location to view the .txt file.
 
 ---
