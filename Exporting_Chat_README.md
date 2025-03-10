@@ -1,5 +1,3 @@
-# whatsapp-chat-analysis
-This project analyzes WhatsApp chat data to generate insightful statistics and visualizations. By extracting and processing WhatsApp chat history from exported .txt files, the app provides a range of analysis features including message frequency, emoji usage, user participation, word clouds, sentiment analysis, and more. 
 # Exporting a Chat from WhatsApp
 
 ### **Step 1: Open WhatsApp**
@@ -16,9 +14,9 @@ This project analyzes WhatsApp chat data to generate insightful statistics and v
 3. Tap **Export Chat**.
 
 <div style="display: flex; justify-content: space-between;">
-  <img src="images/Step 2.jpg" alt="Step 2" width="250" height="250">
-  <img src="images/Step 3.jpg" alt="Step 3" width="250" height="250">
-  <img src="images/Step 4.jpg" alt="Step 4" width="250" height="250">
+  <img src="images/Step 2.1.jpg" alt="Step 2" width="250" height="250">
+  <img src="images/Step 2.2.jpg" alt="Step 3" width="250" height="250">
+  <img src="images/Step 2.3.jpg" alt="Step 4" width="250" height="250">
 </div>
 
 ---
@@ -29,7 +27,7 @@ This project analyzes WhatsApp chat data to generate insightful statistics and v
    - **Without Media**: Exports only the chat text.
 > **Note:** This project only works with the **Without Media** option. Make sure to select this when exporting the chat.
 
-<img src="images/Step 5.jpg" alt="Step 5" width="300" height="300">
+<img src="images/Step 3.jpg" alt="Step 5" width="300" height="300">
 
 ---
 
