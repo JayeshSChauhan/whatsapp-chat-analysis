@@ -1,7 +1,8 @@
 # WhatsApp Chat Analysis
 
 ## 📌 Project Overview
-This project analyzes **individual and group chats** from WhatsApp. It processes exported `.txt` chat files, extracts structured data, and provides insights based on chat patterns.
+This project analyzes **individual and group chats** from WhatsApp. It processes exported `.txt` chat files, extracts structured data, and provides insights based on chat patterns. The application is deployed on Streamlit and can be accessed here:
+🔗 WhatsApp Chat Analysis & Insights Tool
 
 ## 🕸️ Features
 - Supports **individual and group chat** analysis.
