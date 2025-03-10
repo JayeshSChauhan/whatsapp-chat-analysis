@@ -6,126 +6,199 @@ import emoji
 
 # Function will show the statistic part of data
 def show_stat(selected_user, df):
-    if selected_user != 'Overall':
-        df = df[selected_user == df['User']]
+    try:
+        if 'User' not in df.columns or 'Message' not in df.columns:
+            return "Error: Required columns are missing from the data."
 
-    # 1. show the total number of message(chat) done into group/individual
-    total_msg = df.shape[0]
+        if selected_user != 'Overall':
+            df = df[df['User'] == selected_user]
 
-    # 2. show the total number of words by group/individual
-    total_word_list = []
-    for msg in df['Message']:
-        total_word_list.extend(msg.split()) # stored words into total_word list
-    total_word = len(total_word_list)
+        total_msg = df.shape[0]
 
-    # 3. show the total number of media omitted file(video/image file)
-    total_media_file = df[df['Message'] == '<Media omitted>'].shape[0]
+        total_word_list = []
+        for msg in df['Message']:
+            total_word_list.extend(msg.split())
 
-    # 4. Show the total number of links
-    link_list = []
-    extractor = URLExtract()
-    for msg in df['Message']:
-        link_list.extend(extractor.find_urls(msg))
-    link = len(link_list)
+        total_word = len(total_word_list)
+        total_media_file = df[df['Message'] == '<Media omitted>'].shape[0]
 
-    return total_msg, total_word, total_media_file, link
+        extractor = URLExtract()
+        link_list = []
+        for msg in df['Message']:
+            link_list.extend(extractor.find_urls(msg))
+
+        link = len(link_list)
+        return total_msg, total_word, total_media_file, link
+
+    except Exception as e:
+        return f"An error occurred in show_stat: {str(e)}"
 
 # Function will show the most busy user
 def show_busy_user(df):
-    x1 = df['User'].value_counts().head() # show top 5 users 
-    x2 = (df['User'].value_counts()/df.shape[0])*100 # show all the users in percentage
-    return x1, x2.round(2)
+    try:
+        if 'User' not in df.columns:
+            return "Error: 'User' column is missing from the data."
 
-# Function will show word cloud
+        x1 = df['User'].value_counts().head()
+        x2 = (df['User'].value_counts()/df.shape[0])*100
+        return x1, x2.round(2)
+
+    except Exception as e:
+        return f"An error occurred in show_busy_user: {str(e)}"
+    
+# Function will show word cloud 
 def show_word_cloud(selected_user, df):
-    if selected_user != 'Overall':
-        df = df[selected_user == df['User']]
+        try:
+            if 'User' not in df.columns or 'Message' not in df.columns:
+                return "Error: Required columns are missing from the data."
+            
+            if selected_user != 'Overall':
+                df = df[df['User'] == selected_user]  # Fix filtering syntax
 
-    temp_df = df[df['User'] != 'Group_notification'] # will not count Group_notification's words as word cloud
-    temp_df = temp_df[temp_df['Message'] != '<Media omitted>'] # will not count <Media omitted> message as word cloud
-    # below words are also not count as word cloud
-    f = open('stop_hinglish.txt')
-    stop_word = f.read()
+            # Remove non-text messages
+            temp_df = df[(df['User'] != 'Group_notification') & (df['Message'] != '<Media omitted>')]
 
-    def remove_stop_word(msg):
-        word_cloud_list = []
-        for wd in msg.lower().split():
-            if wd not in stop_word:
-                word_cloud_list.append(wd)
-        return " ".join(word_cloud_list)
+            # Read stop words
+            with open('stop_hinglish.txt', 'r', encoding='utf-8') as f:
+                stop_word = set(f.read().split())  # Convert to a set for faster lookup
 
-    wc = WordCloud(width=500, height=500, min_font_size=10, background_color='white')
-    
-    temp_df['Message'] = temp_df['Message'].apply(remove_stop_word)
-    df_wc = wc.generate(temp_df['Message'].str.cat(sep = " "))
-    return df_wc
+            def remove_stop_word(msg):
+                return " ".join([word for word in msg.lower().split() if word not in stop_word])
 
-# Function will show msot common word
+            # Apply text filtering
+            temp_df['Message'] = temp_df['Message'].apply(remove_stop_word)
+
+            # Check if there is any valid text left
+            if temp_df['Message'].str.strip().str.len().sum() == 0:
+                return None  # No valid text to generate a word cloud
+
+            # Generate word cloud
+            wc = WordCloud(width=500, height=500, min_font_size=10, background_color='white')
+            df_wc = wc.generate(temp_df['Message'].str.cat(sep=" "))
+            return df_wc
+        
+        except Exception as e:
+            return f"An error occurred in show_word_cloud: {str(e)}"
+
+# Function will show most common words
 def show_most_com_word(selected_user, df):
-    if selected_user != 'Overall':
-        df = df[selected_user == df['User']]
-    
-    temp_df = df[df['User'] != 'Group_notification'] # will not count Group_notification's words as most common word
-    temp_df = temp_df[temp_df['Message'] != '<Media omitted>'] # will not count <Media omitted> message as most common word
-    # below words are also not count as most common word
-    f = open('stop_hinglish.txt')
-    stop_word = f.read()
+    try:
+        if 'User' not in df.columns or 'Message' not in df.columns:
+            return "Error: Required columns are missing from the data."
+        
+        if selected_user != 'Overall':
+            df = df[df['User'] == selected_user]  
 
-    word_list = []
-    for msg in temp_df['Message']:
-        for wd in msg.lower().split():
-            if wd not in stop_word:
-                word_list.append(wd)
+        # Remove non-text messages
+        temp_df = df[(df['User'] != 'Group_notification') & (df['Message'] != '<Media omitted>')]
 
-    most_word = pd.DataFrame(Counter(word_list).most_common(15)) # fetch most 20 words
-    return most_word
+        # Read stop words
+        with open('stop_hinglish.txt', 'r', encoding='utf-8') as f:
+            stop_word = set(f.read().split())  
+
+        def remove_stop_word(msg):
+            return " ".join([word for word in msg.lower().split() if word not in stop_word])
+
+        temp_df['Message'] = temp_df['Message'].apply(remove_stop_word)
+
+        # Flatten all words into a single list
+        words = " ".join(temp_df['Message']).split()
+
+        if not words:  # If no words exist, return an empty DataFrame
+            return pd.DataFrame(columns=['Word', 'Count'])
+
+        # Count most common words
+        most_common = Counter(words).most_common(10)
+        
+        return pd.DataFrame(most_common, columns=['Word', 'Count'])
+
+    except Exception as e:
+            return f"An error occurred in show_most_com_word: {str(e)}"
 
 # Function will show emoji analysis
 def show_emoji_ana(selected_user, df):
-    if selected_user != 'Overall':
-        df = df[selected_user == df['User']]
+    try:
+        if 'User' not in df.columns or 'Message' not in df.columns:
+            return "Error: Required columns are missing from the data."
 
-    emoji_list = []
-    for msg in df['Message']:
-        emoji_list.extend([c for c in msg if c in emoji.EMOJI_DATA])
-    emj = pd.DataFrame(Counter(emoji_list).most_common(len(Counter(emoji_list)))) # fetch all the emoji which is used
-    return emj
+        if selected_user != 'Overall':
+            df = df[df['User'] == selected_user]
 
+        emoji_list = [c for msg in df['Message'] for c in msg if c in emoji.EMOJI_DATA]
+        emj = pd.DataFrame(Counter(emoji_list).most_common(len(Counter(emoji_list))))
+        return emj
+
+    except Exception as e:
+        return f"An error occurred in show_emoji_ana: {str(e)}"
+
+# Function will show monthly timeline
 def show_month_timeline(selected_user, df):
-    if selected_user != 'Overall':
-        df = df[selected_user == df['User']]
+    try:
+        if 'User' not in df.columns or 'Message' not in df.columns:
+            return "Error: Required columns are missing from the data."
 
-    timeline = df.groupby(['Year', 'Month_name', 'Month']).count()['Message'].reset_index()
-    time = []
-    for i in range(timeline.shape[0]):
-        time.append(timeline['Month_name'][i] + "-" + str(timeline['Year'][i]))
-    timeline['Time'] = time
-    return timeline
+        if selected_user != 'Overall':
+            df = df[df['User'] == selected_user]
 
+        timeline = df.groupby(['Year', 'Month_name', 'Month']).count()['Message'].reset_index()
+        timeline['Time'] = timeline.apply(lambda x: f"{x['Month_name']}-{x['Year']}", axis=1)
+        return timeline
+
+    except Exception as e:
+        return f"An error occurred in show_month_timeline: {str(e)}"
+
+# Function will show daily timeline
 def show_day_timeline(selected_user, df):
-    if selected_user != 'Overall':
-        df = df[selected_user == df['User']]
+    try:
+        if 'User' not in df.columns or 'Message' not in df.columns:
+            return "Error: Required columns are missing from the data."
 
-    timeline = df.groupby(df['Full_date']).count()['Message'].reset_index()
-    return timeline
+        if selected_user != 'Overall':
+            df = df[df['User'] == selected_user]
 
+        return df.groupby(df['Full_date']).count()['Message'].reset_index()
+
+    except Exception as e:
+        return f"An error occurred in show_day_timeline: {str(e)}"
+
+# Function will show activity per day of week
 def show_day_name_ana(selected_user, df):
-    if selected_user != 'Overall':
-        df = df[selected_user == df['User']]
+    try:
+        if 'User' not in df.columns or 'Day_name' not in df.columns:
+            return "Error: Required columns are missing from the data."
 
-    day_timeline = df['Day_name'].value_counts()
-    return day_timeline
+        if selected_user != 'Overall':
+            df = df[df['User'] == selected_user]
 
+        return df['Day_name'].value_counts()
+
+    except Exception as e:
+        return f"An error occurred in show_day_name_ana: {str(e)}"
+
+# Function will show activity per month
 def show_month_name_ana(selected_user, df):
-    if selected_user != 'Overall':
-        df = df[selected_user == df['User']]
+    try:
+        if 'User' not in df.columns or 'Month_name' not in df.columns:
+            return "Error: Required columns are missing from the data."
 
-    month_timeline = df['Month_name'].value_counts()
-    return month_timeline
+        if selected_user != 'Overall':
+            df = df[df['User'] == selected_user]
 
+        return df['Month_name'].value_counts()
+
+    except Exception as e:
+        return f"An error occurred in show_month_name_ana: {str(e)}"
+
+# Function will show activity at different time periods
 def time_wise_active(selected_user, df):
-    if selected_user != 'Overall':
-        df = df[selected_user == df['User']]
-    
-    active_graph = df.pivot_table(index='Day_name', columns='Period', values='Message', aggfunc='count').fillna(0)
-    return active_graph
+    try:
+        if 'User' not in df.columns or 'Message' not in df.columns or 'Period' not in df.columns:
+            return "Error: Required columns are missing from the data."
+
+        if selected_user != 'Overall':
+            df = df[df['User'] == selected_user]
+
+        return df.pivot_table(index='Day_name', columns='Period', values='Message', aggfunc='count').fillna(0)
+
+    except Exception as e:
+        return f"An error occurred in time_wise_active: {str(e)}"
